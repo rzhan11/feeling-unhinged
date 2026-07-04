@@ -111,6 +111,7 @@
   .yay{text-align:center; font-size:21px; color:#3d6a4e; font-weight:bold; letter-spacing:.05em; margin:0 0 12px; animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
   @keyframes pop{0%{transform:scale(.3); opacity:0}70%{transform:scale(1.18)}100%{transform:scale(1)}}
   .song.wild{font-style:normal; font-weight:bold; letter-spacing:.03em; animation:belt .35s ease infinite}
+  .ytbt{width:100%; max-width:400px; height:170px; border:0; border-radius:12px; display:block; margin:6px auto 0}
   @keyframes belt{0%,100%{transform:rotate(-1.2deg) scale(1.02)}50%{transform:rotate(1.2deg) scale(1.05)}}
 </style>
 </head>
@@ -182,9 +183,11 @@
       <h2 class="q">How much wine have you had?</h2>
       <div class="wine-label" style="text-align:center; margin-bottom:4px">🔊 sound on for this one</div>
       <div class="wine-row"><span class="wine-emoji" id="wineEmoji">🍇</span></div>
-      <input type="range" min="0" max="4" value="0" step="1" id="wine" oninput="wineChange(this.value)">
+      <input type="range" min="0" max="5" value="0" step="1" id="wine" oninput="wineChange(this.value)">
       <div class="wine-label" id="wineLabel">stone-cold sober</div>
-      <div class="song" id="song">🎤 …declines the microphone. politely. for now.</div>
+      <div class="song" id="song">🎤 …</div>
+      <div class="wine-label" style="text-align:center; margin:12px 0 4px">or press play for the real thing 👇</div>
+      <iframe class="ytbt" id="ytbt" src="https://www.youtube.com/embed/M11SvDtPBhA?enablejsapi=1&playsinline=1" title="Party in the U.S.A. — backing track" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
       <div class="next-wrap"><button class="cta ghost" id="karaokeNext" onclick="go(4)" style="opacity:.5; pointer-events:none">crank it to the end first →</button></div>
     </div>
 
@@ -273,9 +276,10 @@
   const wineStates=[
     {e:'🍇',l:'stone-cold sober',s:'🎤 …',c:'#8a7f79'},
     {e:'🍷',l:'one glass in',s:'🎵 "hopped off the plane at LAX…"',c:'#7a6f68'},
-    {e:'🍷🍷',l:'two glasses — uh oh',s:'🎵 "so i put my hands up, they\'re playing MY SONG 🙌"',c:'#c56d57'},
-    {e:'🍷🍷🍷',l:'three — no going back',s:'🎵 "NODDIN\' MY HEAD LIKE YEAH!!! MOVIN\' MY HIPS LIKE YEAHHH!!!"',c:'#d64b3a',wild:true},
-    {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎵 "IT\'S A PARTY IN THE U.S.AAAAAAAAAA!!!!! 🎉🇺🇸🎉"',c:'#a8311f',wild:true},
+    {e:'🍷🍷',l:'two glasses',s:'🎵 "with a dream and my cardigan 🧥"',c:'#a8776a'},
+    {e:'🍷🍷🍷',l:'three — uh oh',s:'🎵 "so i put my hands up, they\'re playing MY SONG 🙌"',c:'#c56d57'},
+    {e:'🍷🍷🍷🍷',l:'four — no going back',s:'🎵 "NODDIN\' MY HEAD LIKE YEAH!!! MOVIN\' MY HIPS LIKE YEAHHH!!!"',c:'#d64b3a',wild:true},
+    {e:'🍷🍷🍷🍷🍷',l:'fully committed',s:'🎵 "IT\'S A PARTY IN THE U.S.AAAAAAAAAA!!!!! 🎉🇺🇸🎉"',c:'#a8311f',wild:true},
   ];
   // ---- the "singing" (synthesized, escalates with wine) ----
   let audioCtx;
@@ -323,7 +327,7 @@
     bgLevel=level;
     if(bgTimer){clearInterval(bgTimer); bgTimer=null;}
     if(level>0 && audioCtx){
-      const ms=[0,250,240,215,190][Math.min(level,4)];          // party speeds up
+      const ms=[0,255,240,225,205,185][Math.min(level,5)];      // party speeds up
       bgTimer=setInterval(bgTick,ms);
     }
   }
@@ -338,27 +342,42 @@
         note(330,t,0.4,'sine',0.06);
       }else if(level===2){ // tentative la-la-la, slightly sharp
         [330,392,330].forEach((f,i)=>note(f*1.015,t+i*0.19,0.2,'triangle',0.09));
-      }else if(level===3){ // confident and wrong
+      }else if(level===3){ // warming up
+        [330,392,440,392].forEach((f,i)=>note(f*1.02,t+i*0.17,0.18,'triangle',0.09));
+      }else if(level===4){ // confident and wrong
         [392,440,494,440,523].forEach((f,i)=>note(f*(i%2?1.04:0.975),t+i*0.16,0.18,'sawtooth',0.08));
-      }else if(level>=4){ // FULL PARTY
+      }else if(level>=5){ // FULL PARTY
         [392,523,392,523,587,523].forEach((f,i)=>note(f,t+i*0.11,0.13,'square',0.07)); // bouncy party riff
         note(659,t+0.68,0.85,'sawtooth',0.12,1.12); // big final note, bent upward, unearned
       }
     }catch(e){/* no audio? the show goes on */}
   }
 
+  // real backing track via YouTube — when it plays, the synth steps aside
+  let ytOn=false;
+  try{
+    window.onYouTubeIframeAPIReady=function(){
+      new YT.Player('ytbt',{events:{onStateChange:e=>{
+        ytOn=(e.data===1);
+        if(ytOn) stopGroove();
+      }}});
+    };
+    const tag=document.createElement('script');
+    tag.src='https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }catch(e){/* embed unavailable? synth carries the party */}
+
   let wineMax=0;
   function wineChange(v){
     v=+v; const st=wineStates[v];
-    sing(v);
-    setGroove(v);
+    if(!ytOn){ sing(v); setGroove(v); }
     document.getElementById('wineEmoji').textContent=st.e;
     document.getElementById('wineLabel').textContent=st.l;
     const song=document.getElementById('song');
     song.textContent=st.s; song.style.color=st.c;
     song.classList.toggle('wild',!!st.wild);
     wineMax=Math.max(wineMax,v);
-    if(wineMax>=4){
+    if(wineMax>=5){
       const nx=document.getElementById('karaokeNext');
       nx.style.opacity='1'; nx.style.pointerEvents='auto';
       nx.textContent='okay, i have seen enough →';
