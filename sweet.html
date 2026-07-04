@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>seven true things about me</title>
+<style>
+  :root{
+    --bg1:#fbeee6; --bg2:#eef1f4; --ink:#3a3230; --soft:#8a7f79;
+    --rose:#d98a76; --sage:#7fa08a; --gold:#e0b15c; --line:#eaddd4;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    line-height:1.65;
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    background-attachment:fixed;
+  }
+  .wrap{max-width:600px; margin:0 auto; padding:80px 26px 100px}
+  .intro{text-align:center; margin-bottom:64px}
+  .hi{font-size:13px; letter-spacing:.32em; text-transform:uppercase; color:var(--soft); margin-bottom:18px}
+  h1{font-size:34px; font-weight:normal; line-height:1.25; margin:0 0 14px; letter-spacing:-.01em}
+  h1 em{font-style:italic; color:var(--rose)}
+  .lede{font-size:17px; color:var(--soft); font-style:italic; margin:0 auto; max-width:420px}
+  .item{margin:0 0 54px; opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease}
+  .item.in{opacity:1; transform:none}
+  .num{font-size:13px; letter-spacing:.2em; color:var(--rose); text-transform:uppercase; display:block; margin-bottom:6px}
+  .item h2{font-size:24px; font-weight:normal; margin:0 0 10px; font-style:italic}
+  .item p{font-size:17px; margin:0; color:#4b4340}
+  .item p + p{margin-top:12px}
+  .divider{width:38px; height:1px; background:var(--line); margin:0 auto 54px}
+  .dot{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:9px; vertical-align:middle}
+  .heart{cursor:pointer; user-select:none; color:var(--rose); font-style:normal; border:none; background:none; font-size:17px; padding:0; font-family:inherit; border-bottom:1px solid var(--line)}
+  .heart:hover{color:#c56d57}
+  .closing{text-align:center; margin-top:20px; padding-top:44px; border-top:1px solid var(--line)}
+  .closing p{font-size:18px; color:#4b4340; font-style:italic}
+  .soup-btn{font-family:inherit; font-size:15px; color:var(--ink); background:#fff8; border:1px solid var(--line); border-radius:30px; padding:11px 22px; cursor:pointer; transition:all .3s; margin-top:8px}
+  .soup-btn:hover{background:#fff; border-color:var(--gold); color:var(--rose)}
+  .whisper{font-size:14px; color:var(--soft); min-height:22px; margin-top:16px; transition:opacity .5s; font-style:italic}
+  a.home{display:inline-block; margin-top:40px; font-size:13px; letter-spacing:.1em; color:var(--soft); text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--line)}
+  .float{position:fixed; bottom:0; font-size:20px; pointer-events:none; opacity:0; animation:rise 3.4s ease-out forwards}
+  @keyframes rise{0%{opacity:0; transform:translateY(20px)}15%{opacity:.9}100%{opacity:0; transform:translateY(-70vh) rotate(20deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <div class="hi">hi there</div>
+    <h1>Seven true things<br>about <em>me</em></h1>
+    <p class="lede">no pressure. i just figured you should know what you might be getting into.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--gold)"></span>One</span>
+    <h2>trivia nights</h2>
+    <p>I keep an alarming amount of useless knowledge in my head and almost none of the useful kind. I light up at bar trivia. I'll pick a team name that's a pun, and I'll be quietly thrilled if you laugh at it.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--sage)"></span>Two</span>
+    <h2>seaweed</h2>
+    <p>I think seaweed is underrated and I will gently, persistently try to convince you. The roasted kind, the salad kind, the kind floating in a good broth. It's a small thing, but I get delighted by small things.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--rose)"></span>Three</span>
+    <h2>wine-drunk karaoke</h2>
+    <p>I cannot sing. I mean it. But give me a glass of wine and a microphone and I become fearless in the most embarrassing, joyful way. The duet slot is open, if you're brave.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--gold)"></span>Four</span>
+    <h2>graphs</h2>
+    <p>This is a real one: I love a good graph. A clean trend line makes me happy in a way I can't fully justify. I notice patterns everywhere. I'd probably make a little chart about you, and I mean that as the highest compliment.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--sage)"></span>Five</span>
+    <h2>stray cats</h2>
+    <p>I cannot walk past a stray cat without stopping. I crouch, I do the little sound, I let them decide. Most of them ignore me. I love them anyway. I think you can tell a lot about a person by that.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--rose)"></span>Six</span>
+    <h2>horror games</h2>
+    <p>I play scary games despite being genuinely, pathetically easy to scare. I'll jump, I'll yelp, I'll make you hold the controller during the worst part. It's more fun with someone next to you, honestly.</p>
+  </div>
+
+  <div class="item"><span class="num"><span class="dot" style="background:var(--gold)"></span>Seven</span>
+    <h2>a good soup</h2>
+    <p>And this is the truest one. I think a good soup is a love language. If I like you, I'll make you soup — that's the softest, most sincere thing I know how to offer. So consider this the whole page building toward a single, honest sentence:</p>
+    <p><button class="heart" id="soupReveal">i'd like to make you soup someday.</button></p>
+  </div>
+
+  <div class="closing">
+    <p>that's me. seven true things.<br>if any of them made you smile, i'd love to hear which one.</p>
+    <button class="soup-btn" id="soupBtn">leave a little warmth</button>
+    <div class="whisper" id="whisper"></div>
+    <a class="home" href="index.html">the other versions</a>
+  </div>
+</div>
+
+<script>
+  // reveal on scroll
+  const items=document.querySelectorAll('.item');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.25});
+  items.forEach(i=>io.observe(i));
+
+  // gentle floating hearts on the soup reveal
+  function floatUp(emoji){
+    const el=document.createElement('div');
+    el.className='float'; el.textContent=emoji;
+    el.style.left=(15+Math.floor((performance.now()*3)%70))+'%';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3400);
+  }
+  document.getElementById('soupReveal').addEventListener('click',()=>{
+    ['🍜','🤍','🍜'].forEach((e,i)=>setTimeout(()=>floatUp(e),i*220));
+  });
+
+  const messages=['thank you. that genuinely made my day.','i mean it about the soup.','no pressure at all — just glad you read this far.','okay now i’m definitely making you soup.'];
+  let m=0;
+  document.getElementById('soupBtn').addEventListener('click',()=>{
+    document.getElementById('whisper').textContent=messages[m%messages.length]; m++;
+    ['🤍','♨'].forEach((e,i)=>setTimeout(()=>floatUp(e),i*260));
+  });
+</script>
+</body>
+</html>
