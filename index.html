@@ -130,10 +130,8 @@
     <div class="screen active" data-step="0">
       <span class="cat happy">🐈</span>
       <div class="says">oh. you found my trivia night. <em>good.</em></div>
-      <div class="kicker">house rules, from the cat</div>
       <h1>Answer my questions.<br>The prize is <em>soup.</em></h1>
-      <p class="q" style="font-style:normal; font-size:15.5px; color:var(--soft)">…soup at the end.</p>
-      <div class="next-wrap"><button class="cta" onclick="go(1)">let's begin →</button></div>
+      <div class="next-wrap" style="margin-top:26px"><button class="cta" onclick="go(1)">let's begin →</button></div>
     </div>
 
     <!-- 1 · SEAWEED TRIVIA -->
@@ -272,11 +270,11 @@
 
   // ---- karaoke slider ----
   const wineStates=[
-    {e:'🍇',l:'stone-cold sober',s:'🎤 …you decline the microphone. politely. for now.',c:'#8a7f79'},
-    {e:'🍷',l:'one glass in',s:'🎵 "coming out of my cage…" (mumbled. barely audible. testing the waters.)',c:'#7a6f68'},
-    {e:'🍷🍷',l:'two glasses — uh oh',s:'🎵 "…and I\'ve been doing just fine…" — you know every word. of course you do.',c:'#c56d57'},
-    {e:'🍷🍷🍷',l:'three — no going back',s:'🎵 "IT WAS ONLY A KISS!! IT WAS ONLY A KISS!!" (it was never only a kiss)',c:'#d64b3a',wild:true},
-    {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎵 "MISTER BRIGHTSIIIIIIIDE" — eyes closed. on the couch. the cat is your backup singer now.',c:'#a8311f',wild:true},
+    {e:'🍇',l:'stone-cold sober',s:'🎤 …',c:'#8a7f79'},
+    {e:'🍷',l:'one glass in',s:'🎵 "hopped off the plane at LAX…"',c:'#7a6f68'},
+    {e:'🍷🍷',l:'two glasses — uh oh',s:'🎵 "so i put my hands up, they\'re playing MY SONG 🙌"',c:'#c56d57'},
+    {e:'🍷🍷🍷',l:'three — no going back',s:'🎵 "NODDIN\' MY HEAD LIKE YEAH!!! MOVIN\' MY HIPS LIKE YEAHHH!!!"',c:'#d64b3a',wild:true},
+    {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎵 "IT\'S A PARTY IN THE U.S.AAAAAAAAAA!!!!! 🎉🇺🇸🎉"',c:'#a8311f',wild:true},
   ];
   // ---- the "singing" (synthesized, escalates with wine) ----
   let audioCtx;
@@ -301,9 +299,9 @@
         [330,392,330].forEach((f,i)=>note(f*1.015,t+i*0.19,0.2,'triangle',0.09));
       }else if(level===3){ // confident and wrong
         [392,440,494,440,523].forEach((f,i)=>note(f*(i%2?1.04:0.975),t+i*0.16,0.18,'sawtooth',0.08));
-      }else if(level>=4){ // THE KEY CHANGE
-        [262,330,392,523].forEach((f,i)=>note(f,t+i*0.13,0.16,'sawtooth',0.09));
-        note(587,t+0.55,0.8,'sawtooth',0.12,1.13); // final note, bent upward, unearned
+      }else if(level>=4){ // FULL PARTY
+        [392,523,392,523,587,523].forEach((f,i)=>note(f,t+i*0.11,0.13,'square',0.07)); // bouncy party riff
+        note(659,t+0.68,0.85,'sawtooth',0.12,1.12); // big final note, bent upward, unearned
       }
     }catch(e){/* no audio? the show goes on */}
   }
