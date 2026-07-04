@@ -155,7 +155,7 @@
       <span class="cat">🐈</span>
       <div class="says" id="say2">round two. now read this chart. it's important.</div>
       <div class="kicker">Round 2</div>
-      <h2 class="q">This plots his seaweed enthusiasm across one meal. When does he say <em>"ok, enough seaweed"?</em></h2>
+      <h2 class="q">My scientists have been tracking your seaweed enthusiasm across one meal. When do you say <em>"ok, enough seaweed"?</em></h2>
       <svg viewBox="0 0 420 190" role="img" aria-label="A flat, very high line labeled seaweed enthusiasm">
         <line class="gl" x1="45" y1="35" x2="405" y2="35"/>
         <line class="gl" x1="45" y1="80" x2="405" y2="80"/>
@@ -169,7 +169,7 @@
         <text class="glbl" x="235" y="30" text-anchor="middle">(it just… stays up here)</text>
       </svg>
       <div class="opts" id="q2">
-        <button class="opt" onclick="answer(this,false,2,'around bite twelve? you underestimate him deeply.')">around bite 12</button>
+        <button class="opt" onclick="answer(this,false,2,'bite twelve? my data says otherwise. my data is very good.')">around bite 12</button>
         <button class="opt" onclick="answer(this,true,2,'never. the line never comes down. you read the graph correctly.')">never — read the line</button>
         <button class="opt" onclick="answer(this,false,2,'when the seaweed runs out — but the enthusiasm stays. see the chart.')">when the seaweed runs out</button>
       </div>
@@ -179,9 +179,9 @@
     <!-- 3 · KARAOKE SLIDER -->
     <div class="screen" data-step="3">
       <span class="cat">🐈</span>
-      <div class="says">round three isn't a question. it's a <em>warning.</em> drag the wine.</div>
+      <div class="says">round three isn't a question. i am simply pouring you wine. drag the slider.</div>
       <div class="kicker">Round 3</div>
-      <h2 class="q">How much wine has he had?</h2>
+      <h2 class="q">How much wine have you had?</h2>
       <div class="wine-label" style="text-align:center; margin-bottom:4px">🔊 sound on for this one</div>
       <div class="wine-row"><span class="wine-emoji" id="wineEmoji">🍇</span></div>
       <input type="range" min="0" max="4" value="0" step="1" id="wine" oninput="wineChange(this.value)">
@@ -193,9 +193,9 @@
     <!-- 4 · JUMP SCARE -->
     <div class="screen" data-step="4">
       <span class="cat">🐈</span>
-      <div class="says" id="say4">round four. he loves horror games. he is also a coward. observe.</div>
+      <div class="says" id="say4">round four. there is something behind this door. it's probably nothing.</div>
       <div class="kicker">Round 4</div>
-      <h2 class="q">There's a button. He said do <em>not</em> press it.</h2>
+      <h2 class="q">There's a button. Do <em>not</em> press it.</h2>
       <button class="scare-btn" id="scareBtn" onclick="doScare()">🚪 do NOT press this button</button>
       <div class="next-wrap" id="n4"></div>
     </div>
@@ -211,8 +211,8 @@
         <div class="rim"></div>
         <div class="bowl"><div class="broth" id="broth"></div><div class="swirl" id="swirl"></div></div>
       </div>
-      <p class="closing">This part isn't a bit: if you ever want it,<br>I actually will make you tomato bisque.</p>
-      <p class="sign">— and the cat says hi</p>
+      <p class="closing">Made it from scratch. With my little paws.<br>You earned every drop.</p>
+      <p class="sign">— warm regards, the cat 🐾</p>
       <button class="replay" onclick="location.reload()">play again</button>
     </div>
 
@@ -272,11 +272,11 @@
 
   // ---- karaoke slider ----
   const wineStates=[
-    {e:'🍇',l:'stone-cold sober',s:'🎤 …declines the microphone. politely. for now.',c:'#8a7f79'},
+    {e:'🍇',l:'stone-cold sober',s:'🎤 …you decline the microphone. politely. for now.',c:'#8a7f79'},
     {e:'🍷',l:'one glass in',s:'🎵 "coming out of my cage…" (mumbled. barely audible. testing the waters.)',c:'#7a6f68'},
-    {e:'🍷🍷',l:'two glasses — uh oh',s:'🎵 "…and I\'ve been doing just fine…" — oh no. he knows every word. of course he does.',c:'#c56d57'},
-    {e:'🍷🍷🍷',l:'three — no going back',s:'🎵 "IT WAS ONLY A KISS!! IT WAS ONLY A KISS!!" (it was not only a kiss to him)',c:'#d64b3a',wild:true},
-    {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎵 "MISTER BRIGHTSIIIIIIIDE" — eyes closed. on the couch. pointing directly at you.',c:'#a8311f',wild:true},
+    {e:'🍷🍷',l:'two glasses — uh oh',s:'🎵 "…and I\'ve been doing just fine…" — you know every word. of course you do.',c:'#c56d57'},
+    {e:'🍷🍷🍷',l:'three — no going back',s:'🎵 "IT WAS ONLY A KISS!! IT WAS ONLY A KISS!!" (it was never only a kiss)',c:'#d64b3a',wild:true},
+    {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎵 "MISTER BRIGHTSIIIIIIIDE" — eyes closed. on the couch. the cat is your backup singer now.',c:'#a8311f',wild:true},
   ];
   // ---- the "singing" (synthesized, escalates with wine) ----
   let audioCtx;
@@ -335,7 +335,7 @@
     setTimeout(()=>{
       flash.style.display='none';
       document.body.classList.remove('shake');
-      document.getElementById('say4').innerHTML='there it is. <em>sorry.</em> he made me do it. honestly? you\'re cute when you jump.';
+      document.getElementById('say4').innerHTML='<em>sorry!!</em> i am a cat. i cannot resist a closed door. you jumped so cute though.';
       document.getElementById('scareBtn').textContent='🚪 (you pressed it. worth it.)';
       document.getElementById('scareBtn').disabled=true;
       document.getElementById('scareBtn').style.opacity='.6';
