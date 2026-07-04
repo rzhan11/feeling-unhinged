@@ -401,11 +401,10 @@
       o2.connect(g2); g2.connect(audioCtx.destination); o2.start(t); o2.stop(t+0.45);
     }catch(e){/* silent scare is still a scare */}
   }
-  const faces=['👹','😱','🫣','👻'];
   function doScare(){
     screech();
     const flash=document.getElementById('flash');
-    flash.textContent=faces[Math.floor(wineMax+ step) % faces.length];
+    flash.textContent='👹'; // the demon. non-negotiable.
     flash.style.display='flex';
     document.body.classList.add('shake');
     setTimeout(()=>{
