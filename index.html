@@ -227,6 +227,7 @@
     document.getElementById('progtxt').textContent=step+' / '+TOTAL;
   }
   function go(n){
+    if(n!==3 && typeof stopGroove==='function') stopGroove(); // party ends when you leave the karaoke round
     document.querySelector('.screen.active').classList.remove('active');
     step=n;
     const s=document.querySelector('.screen[data-step="'+n+'"]');
@@ -288,6 +289,46 @@
     o.connect(g); g.connect(audioCtx.destination);
     o.start(t0); o.stop(t0+dur+0.05);
   }
+  // ---- background party groove (loops while the wine flows) ----
+  let bgTimer=null, bgStep=0, bgLevel=0;
+  const BASS=[131,98,110,87]; // C - G - Am - F, one bar each
+  function kick(t){
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(150,t);
+    o.frequency.exponentialRampToValueAtTime(45,t+0.12);
+    g.gain.setValueAtTime(0.22,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
+    o.connect(g); g.connect(audioCtx.destination); o.start(t); o.stop(t+0.2);
+  }
+  function hat(t){
+    const b=audioCtx.createBuffer(1,2205,44100), d=b.getChannelData(0);
+    for(let i=0;i<2205;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/260);
+    const s=audioCtx.createBufferSource(); s.buffer=b;
+    const f=audioCtx.createBiquadFilter(); f.type='highpass'; f.frequency.value=6500;
+    const g=audioCtx.createGain(); g.gain.value=0.05;
+    s.connect(f); f.connect(g); g.connect(audioCtx.destination); s.start(t);
+  }
+  function bgTick(){
+    const t=audioCtx.currentTime+0.03;
+    const bar=Math.floor(bgStep/8)%4, beat=bgStep%8;
+    if(beat%4===0) kick(t);                                    // thump
+    if(bgLevel>=2 && beat%2===1) hat(t);                        // hats join at 2 glasses
+    if(beat%2===0) note(BASS[bar],t,0.18,'square',bgLevel>=4?0.06:0.045); // bassline
+    if(bgLevel>=3){                                             // sparkle arp at 3+
+      const arp=[523,659,784,659][beat%4];
+      note(arp,t,0.1,'triangle',0.03);
+    }
+    bgStep++;
+  }
+  function setGroove(level){
+    bgLevel=level;
+    if(bgTimer){clearInterval(bgTimer); bgTimer=null;}
+    if(level>0 && audioCtx){
+      const ms=[0,250,240,215,190][Math.min(level,4)];          // party speeds up
+      bgTimer=setInterval(bgTick,ms);
+    }
+  }
+  function stopGroove(){ if(bgTimer){clearInterval(bgTimer); bgTimer=null;} bgLevel=0; }
+
   function sing(level){
     try{
       if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
@@ -310,6 +351,7 @@
   function wineChange(v){
     v=+v; const st=wineStates[v];
     sing(v);
+    setGroove(v);
     document.getElementById('wineEmoji').textContent=st.e;
     document.getElementById('wineLabel').textContent=st.l;
     const song=document.getElementById('song');
