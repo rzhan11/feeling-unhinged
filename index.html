@@ -178,6 +178,7 @@
       <div class="says">round three isn't a question. it's a <em>warning.</em> drag the wine.</div>
       <div class="kicker">Round 3</div>
       <h2 class="q">How much wine has he had?</h2>
+      <div class="wine-label" style="text-align:center; margin-bottom:4px">🔊 sound on for this one</div>
       <div class="wine-row"><span class="wine-emoji" id="wineEmoji">🍇</span></div>
       <input type="range" min="0" max="4" value="0" step="1" id="wine" oninput="wineChange(this.value)">
       <div class="wine-label" id="wineLabel">stone-cold sober</div>
@@ -256,9 +257,40 @@
     {e:'🍷🍷🍷',l:'three — no going back',s:'🎤 standing on the couch. this is a Whitney situation now.',c:'#d64b3a'},
     {e:'🍷🍷🍷🍷',l:'fully committed',s:'🎤 THE KEY CHANGE. unearned. glorious. you are handed a tambourine.',c:'#a8311f'},
   ];
+  // ---- the "singing" (synthesized, escalates with wine) ----
+  let audioCtx;
+  function note(freq,t0,dur,type,vol,bend){
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type=type; o.frequency.setValueAtTime(freq,t0);
+    if(bend) o.frequency.linearRampToValueAtTime(freq*bend,t0+dur);
+    g.gain.setValueAtTime(0,t0);
+    g.gain.linearRampToValueAtTime(vol,t0+0.03);
+    g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t0); o.stop(t0+dur+0.05);
+  }
+  function sing(level){
+    try{
+      if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      if(audioCtx.state==='suspended') audioCtx.resume();
+      const t=audioCtx.currentTime+0.02;
+      if(level===1){ // shy hum
+        note(330,t,0.4,'sine',0.06);
+      }else if(level===2){ // tentative la-la-la, slightly sharp
+        [330,392,330].forEach((f,i)=>note(f*1.015,t+i*0.19,0.2,'triangle',0.09));
+      }else if(level===3){ // confident and wrong
+        [392,440,494,440,523].forEach((f,i)=>note(f*(i%2?1.04:0.975),t+i*0.16,0.18,'sawtooth',0.08));
+      }else if(level>=4){ // THE KEY CHANGE
+        [262,330,392,523].forEach((f,i)=>note(f,t+i*0.13,0.16,'sawtooth',0.09));
+        note(587,t+0.55,0.8,'sawtooth',0.12,1.13); // final note, bent upward, unearned
+      }
+    }catch(e){/* no audio? the show goes on */}
+  }
+
   let wineMax=0;
   function wineChange(v){
     v=+v; const st=wineStates[v];
+    sing(v);
     document.getElementById('wineEmoji').textContent=st.e;
     document.getElementById('wineLabel').textContent=st.l;
     const song=document.getElementById('song');
